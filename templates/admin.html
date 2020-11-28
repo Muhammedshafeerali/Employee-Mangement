@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/tabel.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="table-wrapper">
+          <div class="table-title">
+            <div class="row">
+              <div class="col-sm-6">
+                <h2>Manage <b>Employees</b></h2>
+              </div>
+              <div class="col-sm-6">
+                <a href="{% url 'addemployee' %}" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
+                <a href="{% url 'logout' %}" class="btn btn-danger" data-toggle="modal"> <span>LOGOUT</span></a>
+
+              </div>
+            </div>
+          </div>
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th colspan="2">image</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for employee in employees %}
+              <tr>
+                <td>{{employee.id}}</td>
+                <td > <img src="/static/image/{{employee.image}}" alt="" style="width: 100px; height: 100px;"></td>
+                <td></td>
+                <td>{{employee.employee_name}}</td>
+                <td>{{employee.email}}</td>
+                <td>{{employee.adress}}</td>
+                <td>{{employee.phone}}</td>
+                
+                <td>
+                  <a href="{% url 'editemployee' employee.id %}" class="edit" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                  <a href="{% url 'deleteemployee' employee.id %}" onclick="window.mytest('{{employee}}')" id="delcheck{{employee}}" data-id="{{employee.employee_name}}" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                </td>
+              </tr>
+             
+             {% endfor %}
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+      <!-- Edit Modal HTML -->
+
+    </div>
+    <script>
+       
+        window.mytest=function(employ){
+
+          
+            var v= document.getElementById("delcheck"+employ)
+            var name = v.dataset.id
+           
+            var isValid =confirm("are you sure do you want delete  "+name);
+            if(!isValid){
+                event.preventDefault();
+                alert("it wont be delete");
+    
+            }
+            
+        }
+    </script>
+</body>
+</html>
